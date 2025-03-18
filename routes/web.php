@@ -32,6 +32,9 @@ Route::middleware(['role:admin'])->group(function () {
     Route::get('/movimientos', [MovimientoController::class, 'index'])->name('movimientos.index'); // Listar movimientos
 Route::get('/movimientos/crear', [MovimientoController::class, 'create'])->name('movimientos.create'); // Formulario de nuevo movimiento
 Route::post('/movimientos', [MovimientoController::class, 'store'])->name('movimientos.store'); // Guardar movimiento
+Route::get('/movimientos/{movimiento}/editar', [MovimientoController::class, 'edit'])->name('movimientos.edit'); // Formulario de edición
+Route::put('/movimientos/{movimiento}', [MovimientoController::class, 'update'])->name('movimientos.update'); // Actualizar movimiento
+Route::delete('/movimientos/{movimiento}', [MovimientoController::class, 'destroy'])->name('movimientos.destroy'); // Eliminar movimiento
 });
 
 Route::middleware(['role:user'])->group(function () {

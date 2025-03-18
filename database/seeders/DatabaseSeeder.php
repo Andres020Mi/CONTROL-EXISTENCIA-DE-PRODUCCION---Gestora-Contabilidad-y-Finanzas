@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
         $articulosDB = DB::table('articulos')->pluck('id')->toArray();
         $semanasDB = DB::table('semanas')->pluck('id')->toArray();
 
-        for ($i = 0; $i < 500; $i++) {
+        for ($i = 0; $i < 5000; $i++) {
             $articulo_id = $articulosDB[array_rand($articulosDB)];
             $semana_id = $semanasDB[array_rand($semanasDB)];
             $tipo = ['entrada', 'salida'][rand(0, 1)];
