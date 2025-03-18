@@ -1,0 +1,17 @@
+-> se requiere un programa para manejar el inventario la saldida y entrada de las existencias de produccion
+    -> columans que requieren al mostrar una vista
+        -> codigo -> id acendente
+        -> Articulo -> nombre del elemento
+        -> Unidad de medida -> ml kg l g
+        -> entradas totales en la semana
+        -> salidas totales en la semana
+        -> cantidad total actual por semana -> esta cantidad queda fija una ves acaba la semana pero se toma ese total como base para la sigunete semana
+        -> fecha
+    -> se rquiere gestionar las entradas y salidas 
+        -> se necesitan mostrar en columans 
+            -> que articulo se movio 
+            -> la cantidad que se movio 
+            -> si fue una entrada o salida  
+            -> fecha
+            -> mostrar por semana
+        

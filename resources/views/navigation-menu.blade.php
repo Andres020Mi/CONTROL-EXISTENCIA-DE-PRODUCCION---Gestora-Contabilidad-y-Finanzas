@@ -19,8 +19,16 @@
 
                 @if(Auth::user()->role == "admin")
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        admin
+                    <x-jet-nav-link href="{{ route('articulos.index') }}" :active="request()->routeIs('articulos.index')">
+                        Existencias
+                    </x-jet-nav-link>
+                </div>
+                @endif
+
+                @if(Auth::user()->role == "admin")
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('movimientos.index') }}" :active="request()->routeIs('movimientos.index')">
+                        Movimientos
                     </x-jet-nav-link>
                 </div>
                 @endif

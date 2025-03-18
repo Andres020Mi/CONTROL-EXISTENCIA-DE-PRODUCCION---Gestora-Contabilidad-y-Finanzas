@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ArticuloController;
+use App\Http\Controllers\MovimientoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +19,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::middleware(['role:admin'])->group(function () {
-    // Route::get('/admin', [AdminController::class, 'index'])->name("xd.xd");
+    Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index'); // Listar artículos
+    Route::get('/articulos/crear', [ArticuloController::class, 'create'])->name('articulos.create'); // Formulario de creación
+    Route::post('/articulos', [ArticuloController::class, 'store'])->name('articulos.store'); // Guardar artículo
+    Route::get('/articulos/{articulo}/editar', [ArticuloController::class, 'edit'])->name('articulos.edit'); // Formulario de edición
+    Route::put('/articulos/{articulo}', [ArticuloController::class, 'update'])->name('articulos.update'); // Actualizar artículo
+    Route::delete('/articulos/{articulo}', [ArticuloController::class, 'destroy'])->name('articulos.destroy'); // Eliminar artículo
+    
+
+    Route::get('/movimientos', [MovimientoController::class, 'index'])->name('movimientos.index'); // Listar movimientos
+Route::get('/movimientos/crear', [MovimientoController::class, 'create'])->name('movimientos.create'); // Formulario de nuevo movimiento
+Route::post('/movimientos', [MovimientoController::class, 'store'])->name('movimientos.store'); // Guardar movimiento
 });
 
 Route::middleware(['role:user'])->group(function () {
