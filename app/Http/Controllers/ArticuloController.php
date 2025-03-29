@@ -7,6 +7,7 @@ use App\Models\Movimiento;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ArticuloController extends Controller
 {
@@ -41,7 +42,7 @@ class ArticuloController extends Controller
                 ->sum('cantidad');
     
             // Actualizar valores del artículo
-            $articulo->cantidad_inicial = $cantidadInicial; // Nuevo campo agregado a la vista
+            $articulo->cantidad_inicial = $cantidadInicial;
             $articulo->entradas_semana = $entradas;
             $articulo->salidas_semana = $salidas;
             $articulo->cantidad_actual = $cantidadInicial + $entradas - $salidas;
@@ -53,8 +54,6 @@ class ArticuloController extends Controller
         return view('articulos.index', compact('articulos', 'fechaSeleccionada'));
     }
     
-    
-
     public function create()
     {
         return view('articulos.create');
@@ -62,16 +61,23 @@ class ArticuloController extends Controller
 
     public function store(Request $request)
     {
-        Articulo::create($request->validate([
+        $data = $request->validate([
             'nombre' => 'required|string|max:255',
             'unidad_medida' => 'required|in:ml,kg,l,g',
-            'cantidad_inicial' => 'required|integer|min:0',
-        ]));
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Si se subió una imagen, guardarla en el almacenamiento
+        if ($request->hasFile('imagen')) {
+            $data['imagen'] = $request->file('imagen')->store('articulos', 'public');
+        }
+
+        // La cantidad_inicial se mantiene como 0 por defecto en la base de datos
+        Articulo::create($data);
 
         return redirect()->route('articulos.index')->with('success', 'Artículo creado');
     }
 
- 
     public function edit(Articulo $articulo)
     {
         return view('articulos.edit', compact('articulo'));
@@ -79,17 +85,34 @@ class ArticuloController extends Controller
 
     public function update(Request $request, Articulo $articulo)
     {
-        $articulo->update($request->validate([
+        $data = $request->validate([
             'nombre' => 'required|string|max:255',
             'unidad_medida' => 'required|in:ml,kg,l,g',
-            'cantidad_inicial' => 'required|integer|min:0',
-        ]));
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Si se subió una nueva imagen, eliminar la antigua y guardar la nueva
+        if ($request->hasFile('imagen')) {
+            if ($articulo->imagen) {
+                Storage::disk('public')->delete($articulo->imagen);
+            }
+            $data['imagen'] = $request->file('imagen')->store('articulos', 'public');
+        } else {
+            $data['imagen'] = $articulo->imagen;
+        }
+
+        // No actualizamos cantidad_inicial, se mantiene el valor existente
+        $articulo->update($data);
 
         return redirect()->route('articulos.index')->with('success', 'Artículo actualizado');
     }
 
     public function destroy(Articulo $articulo)
     {
+        if ($articulo->imagen) {
+            Storage::disk('public')->delete($articulo->imagen);
+        }
+
         $articulo->delete();
         return redirect()->route('articulos.index')->with('success', 'Artículo eliminado');
     }
