@@ -231,12 +231,12 @@
             <!-- User Menu Dropdown -->
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img src="{{ asset('Adminlte/dist/assets/img/user2-160x160.jpg') }}" class="user-image rounded-circle shadow" alt="User Image" />
+                    <img src="{{ asset('Adminlte/dist/assets/img/user2-160x160.png') }}" class="user-image rounded-circle shadow" alt="User Image" />
                     <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                     <li class="user-header text-bg-primary">
-                        <img src="{{ asset('Adminlte/dist/assets/img/user2-160x160.jpg') }}" class="rounded-circle shadow" alt="User Image" />
+                        <img src="{{ asset('Adminlte/dist/assets/img/user2-160x160.png') }}" class="rounded-circle shadow" alt="User Image" />
                         <p>
                             {{ Auth::user()->name }} - {{ ucfirst(Auth::user()->role) }}
                             <small>Miembro desde {{ Auth::user()->created_at->format('M. Y') }}</small>
@@ -337,7 +337,7 @@
       <!--begin::Footer-->
       <footer class="app-footer text-center py-3">
         <div class="container">
-            <strong>© 2025 Gestión de Agroquímicos SENA. Todos los derechos reservados.</strong>
+            <strong>© 2025 Gestión de Existencias SENA. Todos los derechos reservados.</strong>
             <br>
             <small>Desarrollado por Andrés Gonzalo Barrera Cortés | Contacto: +57 316 820 9707 | andresgbarrerac@gmail.com </small>
             <br>

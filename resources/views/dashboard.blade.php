@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    Dashboard - Gestión de Artículos SENA
+    Dashboard - Gestión de Existencias SENA
 @endsection
 
 @section('links_css_head')
@@ -145,9 +145,9 @@
             </div>
             <div class="card-body">
                 <div class="welcome-section">
-                    <h1 class="welcome-title">Gestión de Artículos - SENA</h1>
+                    <h1 class="welcome-title">Gestión de Existencias - SENA</h1>
                     <p class="welcome-text">
-                        Este sistema, desarrollado para el SENA, permite una gestión eficiente de los artículos utilizados en las unidades de producción. Controla inventarios, registra movimientos y optimiza el uso de recursos para apoyar la formación técnica y las prácticas sostenibles.
+                        Este sistema, desarrollado para el SENA, permite una gestión eficiente de los Existencias . Controla inventarios, registra movimientos y optimiza el uso de recursos para apoyar la formación técnica y las prácticas sostenibles.
                     </p>
                 </div>
             </div>
@@ -156,13 +156,13 @@
         <!-- Estadísticas clave -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Resumen de Artículos</h3>
+                <h3 class="card-title">Resumen de Existencias</h3>
             </div>
             <div class="card-body">
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-number">{{ $dashboardData['total_articulos'] }}</div>
-                        <div class="stat-label">Artículos Registrados</div>
+                        <div class="stat-label">Existencias Registrados</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-number">{{ $dashboardData['stock_total'] }}</div>

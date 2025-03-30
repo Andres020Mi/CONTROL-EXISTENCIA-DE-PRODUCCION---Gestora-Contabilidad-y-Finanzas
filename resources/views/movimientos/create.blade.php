@@ -116,16 +116,16 @@
             <div class="card-body">
                 <form action="{{ route('movimientos.store') }}" method="POST">
                     @csrf
-                    <label>Artículo:</label>
+                    <label>Existencias:</label>
                     <select name="articulo_id" id="articulo_id" required>
-                        <option value="">Selecciona un artículo</option>
+                        <option value="">Selecciona un Existencias</option>
                         @foreach ($articulos as $articulo)
                             <option value="{{ $articulo->id }}" data-image="{{ $articulo->imagen ? Storage::url($articulo->imagen) : '' }}">{{ $articulo->nombre }}</option>
                         @endforeach
                     </select>
 
                     <div class="image-preview">
-                        <img id="imagePreview" alt="Vista previa del artículo">
+                        <img id="imagePreview" alt="Vista previa del Existencias">
                     </div>
 
                     <label>Cantidad:</label>

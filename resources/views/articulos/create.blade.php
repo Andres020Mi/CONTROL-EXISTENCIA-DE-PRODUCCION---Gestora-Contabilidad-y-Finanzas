@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    Crear Artículo
+    Crear Existencias
 @endsection
 
 @section('links_css_head')
@@ -111,7 +111,7 @@
     <div class="content-wrapper">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Crear Artículo</h3>
+                <h3 class="card-title">Crear Existencias</h3>
             </div>
             <div class="card-body">
                 <form action="{{ route('articulos.store') }}" method="POST" enctype="multipart/form-data">

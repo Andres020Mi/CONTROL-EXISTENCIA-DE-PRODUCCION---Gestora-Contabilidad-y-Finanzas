@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    Gestión de Artículos
+    Gestión de Existencias
 @endsection
 
 @section('links_css_head')
@@ -205,13 +205,15 @@
     <link rel="stylesheet" href="{{ asset('DataTables/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('DataTables/buttons.dataTables.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Agregar SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection
 
 @section('content')
     <div class="content-wrapper">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Gestión de Artículos</h3>
+                <h3 class="card-title">Gestión de Existencias</h3>
             </div>
             <div class="card-body">
                 <!-- Formulario para seleccionar la semana -->
@@ -265,10 +267,10 @@
                                         <a href="{{ route('articulos.edit', $articulo->id) }}" class="btn btn-warning">
                                             <i class="fas fa-edit"></i> Editar
                                         </a>
-                                        <form action="{{ route('articulos.destroy', $articulo->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Seguro que deseas eliminar este artículo?');">
+                                        <form action="{{ route('articulos.destroy', $articulo->id) }}" method="POST" class="delete-form" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">
+                                            <button type="button" class="btn btn-danger delete-btn">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </button>
                                         </form>
@@ -330,6 +332,27 @@
                 columnDefs: [
                     { targets: 9, orderable: false } // Desactiva ordenación en "Acciones"
                 ]
+            });
+
+            // Manejo de la eliminación con SweetAlert2
+            $(document).on('click', '.delete-btn', function(e) {
+                e.preventDefault();
+                const form = $(this).closest('form');
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: '¿Quieres eliminar esta existencia? Esta acción no se puede deshacer.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
             });
         });
     </script>

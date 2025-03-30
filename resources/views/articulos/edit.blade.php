@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    Editar Artículo
+    Editar Existencias
 @endsection
 
 @section('links_css_head')
@@ -122,7 +122,7 @@
     <div class="content-wrapper">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Editar Artículo</h3>
+                <h3 class="card-title">Editar Existencias</h3>
             </div>
             <div class="card-body">
                 <form action="{{ route('articulos.update', $articulo->id) }}" method="POST" enctype="multipart/form-data">

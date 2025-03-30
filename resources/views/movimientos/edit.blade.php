@@ -117,9 +117,9 @@
                     @csrf
                     @method('PUT')
 
-                    <label>Artículo:</label>
+                    <label>Existencia:</label>
                     <select name="articulo_id" id="articulo_id" required>
-                        <option value="">Selecciona un artículo</option>
+                        <option value="">Selecciona una existencia</option>
                         @foreach ($articulos as $articulo)
                             <option value="{{ $articulo->id }}" {{ $movimiento->articulo_id == $articulo->id ? 'selected' : '' }} data-image="{{ $articulo->imagen ? Storage::url($articulo->imagen) : '' }}">{{ $articulo->nombre }}</option>
                         @endforeach
