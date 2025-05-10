@@ -106,7 +106,6 @@
         }
     </style>
 @endsection
-
 @section('content')
     <div class="content-wrapper">
         <div class="card">
@@ -116,29 +115,53 @@
             <div class="card-body">
                 <form action="{{ route('movimientos.store') }}" method="POST">
                     @csrf
-                    <label>Existencias:</label>
-                    <select name="articulo_id" id="articulo_id" required>
-                        <option value="">Selecciona un Existencias</option>
-                        @foreach ($articulos as $articulo)
-                            <option value="{{ $articulo->id }}" data-image="{{ $articulo->imagen ? Storage::url($articulo->imagen) : '' }}">{{ $articulo->nombre }}</option>
-                        @endforeach
-                    </select>
-
-                    <div class="image-preview">
-                        <img id="imagePreview" alt="Vista previa del Existencias">
+                    <div>
+                        <label for="articulo_id">Existencias:</label>
+                        <select name="articulo_id" id="articulo_id" required>
+                            <option value="">Selecciona un Existencias</option>
+                            @foreach ($articulos as $articulo)
+                                <option 
+                                    value="{{ $articulo->id }}" 
+                                    data-image="{{ $articulo->imagen ? Storage::url($articulo->imagen) : '' }}"
+                                    data-precio="{{ $articulo->precio_por_unidad }}"
+                                >
+                                    {{ $articulo->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <label>Cantidad:</label>
-                    <input type="number" name="cantidad" min="1" required>
+                    <div class="image-preview">
+                        <img id="imagePreview" alt="Vista previa del Existencias" style="display: none; max-width: 200px;">
+                    </div>
 
-                    <label>Tipo:</label>
-                    <select name="tipo" required>
-                        <option value="entrada">Entrada</option>
-                        <option value="salida">Salida</option>
-                    </select>
+                    <div>
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="number" name="cantidad" id="cantidad" min="1" required>
+                    </div>
 
-                    <label>Fecha:</label>
-                    <input type="date" name="fecha" required>
+                    <div>
+                        <label>Precio por Unidad:</label>
+                        <p id="precioUnidad">$0.00</p>
+                    </div>
+
+                    <div>
+                        <label>Monto Total:</label>
+                        <p id="montoTotal" >$0.00</p>
+                    </div>
+
+                    <div>
+                        <label for="tipo">Tipo:</label>
+                        <select name="tipo" id="tipo" required>
+                            <option value="entrada">Entrada</option>
+                            <option value="salida">Salida</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="fecha">Fecha:</label>
+                        <input type="date" name="fecha" required>
+                    </div>
 
                     <button type="submit">Guardar</button>
                 </form>
@@ -146,22 +169,74 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('scritps_end_body')
     <script>
-        document.getElementById('articulo_id').addEventListener('change', function(event) {
-            const selectedOption = event.target.selectedOptions[0];
-            const imageUrl = selectedOption.getAttribute('data-image');
-            const preview = document.getElementById('imagePreview');
+        const articuloSelect = document.getElementById('articulo_id');
+        const cantidadInput = document.getElementById('cantidad');
+        const precioUnidadDisplay = document.getElementById('precioUnidad');
+        const montoTotalDisplay = document.getElementById('montoTotal');
+        const imagePreview = document.getElementById('imagePreview');
 
-            if (imageUrl) {
-                preview.src = imageUrl;
-                preview.style.display = 'block';
-            } else {
-                preview.src = '';
-                preview.style.display = 'none';
+        // Función para formatear números con separadores de miles
+        function formatNumberWithThousands(number) {
+            // Convertir a string con dos decimales
+            const fixedNumber = number.toFixed(2);
+            // Separar la parte entera y decimal
+            const [integerPart, decimalPart] = fixedNumber.split('.');
+            // Agregar comas cada 3 dígitos en la parte entera
+            let formattedInteger = '';
+            const len = integerPart.length;
+            for (let i = 0; i < len; i++) {
+                if (i > 0 && (len - i) % 3 === 0) {
+                    formattedInteger += ',';
+                }
+                formattedInteger += integerPart[i];
             }
+            // Combinar parte entera y decimal
+            return `$${formattedInteger}.${decimalPart}`;
+        }
+
+        function updateCalculations() {
+            // Evitar errores si no hay opción seleccionada
+            const selectedOption = articuloSelect.selectedOptions[0];
+            const precio = selectedOption && selectedOption.getAttribute('data-precio') ? parseFloat(selectedOption.getAttribute('data-precio')) : 0;
+            const cantidad = cantidadInput.value ? parseInt(cantidadInput.value) : 0;
+
+            // Actualizar precio por unidad con formato de miles
+            precioUnidadDisplay.textContent = formatNumberWithThousands(precio);
+
+            // Calcular y mostrar monto total con formato de miles
+            const montoTotal = precio * cantidad;
+            montoTotalDisplay.textContent = formatNumberWithThousands(montoTotal);
+        }
+
+        // Actualizar imagen y cálculos al cambiar el artículo
+        articuloSelect.addEventListener('change', function(event) {
+            const selectedOption = event.target.selectedOptions[0];
+            const imageUrl = selectedOption ? selectedOption.getAttribute('data-image') : '';
+
+            // Actualizar imagen
+            if (imageUrl) {
+                imagePreview.src = imageUrl;
+                imagePreview.style.display = 'block';
+            } else {
+                imagePreview.src = '';
+                imagePreview.style.display = 'none';
+            }
+
+            // Actualizar cálculos
+            updateCalculations();
+        });
+
+        // Actualizar cálculos al cambiar la cantidad
+        cantidadInput.addEventListener('input', updateCalculations);
+
+        // Inicializar cálculos al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCalculations();
         });
     </script>
 @endsection

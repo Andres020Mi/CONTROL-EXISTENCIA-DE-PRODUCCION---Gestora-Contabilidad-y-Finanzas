@@ -11,7 +11,7 @@ class Articulo extends Model
 
     protected $table = 'articulos';
     
-    protected $fillable = ['nombre', 'unidad_medida','cantidad_inicial','imagen'];
+    protected $fillable = ['nombre', 'unidad_medida','cantidad_inicial','precio_por_unidad','imagen'];
 
     public function movimientos()
     {

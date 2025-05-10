@@ -44,20 +44,7 @@
     <!--begin::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="{{asset('Adminlte/dist/css/adminlte.css')}}" />
     <!--end::Required Plugin(AdminLTE)-->
-    <!-- apexcharts -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
-      integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
-      crossorigin="anonymous"
-    />
-    <!-- jsvectormap -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
-      integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
-      crossorigin="anonymous"
-    />
+   
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('links_css_head')
   </head>
@@ -412,189 +399,167 @@
         cardHeader.style.cursor = 'move';
       });
     </script>
-    <!-- apexcharts -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
-      integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8="
-      crossorigin="anonymous"
-    ></script>
-    <!-- ChartJS -->
+   
+
+        <!-- Modal para errores -->
+    @if ($errors->any() || session('error'))
+    <div class="modal" id="errorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Error</h2>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                @if ($errors->any())
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+                @if (session('error'))
+                    <p>{{ session('error') }}</p>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .modal-content {
+        background: #fff;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        animation: slideIn 0.3s ease-in-out;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background: #dc3545;
+        color: #fff;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .modal-header h2 {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+        color: #f8d7da;
+    }
+
+    .modal-body {
+        padding: 20px;
+        font-size: 1rem;
+        color: #333;
+    }
+
+    .modal-body ul {
+        list-style: disc;
+        padding-left: 20px;
+        margin: 0;
+    }
+
+    .modal-footer {
+        padding: 15px 20px;
+        text-align: right;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background 0.2s;
+    }
+
+    .btn-primary {
+        background: #dc3545;
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        background: #c82333;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+        from { transform: translateY(-20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Estilo para el select */
+    select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    select:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0,123,255,0.3);
+    }
+    </style>
+
     <script>
-      // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
-      // IT'S ALL JUST JUNK FOR DEMO
-      // ++++++++++++++++++++++++++++++++++++++++++
+    function closeModal() {
+        var modal = document.getElementById('errorModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
 
-      const sales_chart_options = {
-        series: [
-          {
-            name: 'Digital Goods',
-            data: [28, 48, 40, 19, 86, 27, 90],
-          },
-          {
-            name: 'Electronics',
-            data: [65, 59, 80, 81, 56, 55, 40],
-          },
-        ],
-        chart: {
-          height: 300,
-          type: 'area',
-          toolbar: {
-            show: false,
-          },
-        },
-        legend: {
-          show: false,
-        },
-        colors: ['#0d6efd', '#20c997'],
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: 'smooth',
-        },
-        xaxis: {
-          type: 'datetime',
-          categories: [
-            '2023-01-01',
-            '2023-02-01',
-            '2023-03-01',
-            '2023-04-01',
-            '2023-05-01',
-            '2023-06-01',
-            '2023-07-01',
-          ],
-        },
-        tooltip: {
-          x: {
-            format: 'MMMM yyyy',
-          },
-        },
-      };
-
-      const sales_chart = new ApexCharts(
-        document.querySelector('#revenue-chart'),
-        sales_chart_options,
-      );
-      sales_chart.render();
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    });
     </script>
-    <!-- jsvectormap -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"
-      integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"
-      integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY="
-      crossorigin="anonymous"
-    ></script>
-    <!-- jsvectormap -->
-    <script>
-      const visitorsData = {
-        US: 398, // USA
-        SA: 400, // Saudi Arabia
-        CA: 1000, // Canada
-        DE: 500, // Germany
-        FR: 760, // France
-        CN: 300, // China
-        AU: 700, // Australia
-        BR: 600, // Brazil
-        IN: 800, // India
-        GB: 320, // Great Britain
-        RU: 3000, // Russia
-      };
-
-      // World map by jsVectorMap
-      const map = new jsVectorMap({
-        selector: '#world-map',
-        map: 'world',
-      });
-
-      // Sparkline charts
-      const option_sparkline1 = {
-        series: [
-          {
-            data: [1000, 1200, 920, 927, 931, 1027, 819, 930, 1021],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline1 = new ApexCharts(document.querySelector('#sparkline-1'), option_sparkline1);
-      sparkline1.render();
-
-      const option_sparkline2 = {
-        series: [
-          {
-            data: [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline2 = new ApexCharts(document.querySelector('#sparkline-2'), option_sparkline2);
-      sparkline2.render();
-
-      const option_sparkline3 = {
-        series: [
-          {
-            data: [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
-      sparkline3.render();
-    </script>
+    @endif
+    
     <!--end::Script-->
     @yield('scritps_end_body')
   </body>

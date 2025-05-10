@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->string('nombre');
             $table->enum('unidad_medida', ['ml', 'kg', 'l', 'g']);
             $table->integer('cantidad_inicial')->default(0);
+            $table->integer('precio_por_unidad');
             $table->string('imagen')->nullable(); // Campo para la ruta de la imagen
             $table->timestamps();
         });

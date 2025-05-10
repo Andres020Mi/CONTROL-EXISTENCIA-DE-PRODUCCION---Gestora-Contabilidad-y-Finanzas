@@ -14,4 +14,46 @@
             -> si fue una entrada o salida  
             -> fecha
             -> mostrar por semana
-        
+
+            
+              Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->foreignId('current_team_id')->nullable();
+            $table->text('profile_photo_path')->nullable();
+            $table->enum('role',['admin','user'])->default('user');
+            $table->timestamps();
+        });
+
+            Schema::create('articulos', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->enum('unidad_medida', ['ml', 'kg', 'l', 'g']);
+            $table->integer('cantidad_inicial')->default(0);
+            $table->integer('precio_por_unidad');
+            $table->string('imagen')->nullable(); // Campo para la ruta de la imagen
+            $table->timestamps();
+        });
+
+            Schema::create('semanas', function (Blueprint $table) {
+            $table->id();
+            $table->date('inicio');
+            $table->date('fin');
+            $table->integer('cantidad_total')->default(0); // Iniciar en 0
+            $table->timestamps();
+        });
+
+          Schema::create('movimientos', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('articulo_id')->constrained('articulos')->onDelete('cascade');
+            $table->integer('cantidad');
+            $table->enum('tipo', ['entrada', 'salida']);
+            $table->date('fecha');
+            $table->integer("valor_del_movimiento");
+            $table->foreignId('semana_id')->constrained('semanas')->onDelete('cascade');
+            $table->timestamps();
+        });

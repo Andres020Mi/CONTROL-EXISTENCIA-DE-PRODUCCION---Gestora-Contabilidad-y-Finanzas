@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->integer('cantidad');
             $table->enum('tipo', ['entrada', 'salida']);
             $table->date('fecha');
+            $table->integer("valor_del_movimiento");
             $table->foreignId('semana_id')->constrained('semanas')->onDelete('cascade');
             $table->timestamps();
         });

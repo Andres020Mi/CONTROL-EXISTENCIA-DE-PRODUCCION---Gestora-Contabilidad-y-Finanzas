@@ -140,6 +140,9 @@
                         <option value="g" {{ $articulo->unidad_medida == 'g' ? 'selected' : '' }}>g</option>
                     </select>
 
+                    <label>Precio por unidad:</label>
+                    <input type="number" name="precio_por_unidad" value="{{ $articulo->precio_por_unidad }}" required>
+
                     <label>Imagen Actual:</label>
                     <div class="current-image">
                         @if ($articulo->imagen)

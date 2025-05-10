@@ -9,7 +9,7 @@ class Movimiento extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['articulo_id', 'cantidad', 'tipo', 'fecha', 'semana_id'];
+    protected $fillable = ['articulo_id', 'cantidad', 'tipo', 'fecha', 'semana_id','valor_del_movimiento'];
     protected $dates = ['fecha'];
 
     public function articulo()

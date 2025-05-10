@@ -175,6 +175,7 @@
                                 <th>Imagen</th>
                                 <th>Artículo</th>
                                 <th>Cantidad</th>
+                                <th>valor del movimiento</th>
                                 <th>Tipo</th>
                                 <th>Fecha</th>
                                 <th>Semana</th>
@@ -195,6 +196,7 @@
                                     </td>
                                     <td>{{ $movimiento->articulo->nombre ?? 'N/A' }}</td>
                                     <td>{{ $movimiento->cantidad }}</td>
+                                    <td name="cops">{{ $movimiento->valor_del_movimiento }}</td>
                                     <td>{{ ucfirst($movimiento->tipo) }}</td>
                                     <td>{{ $movimiento->fecha->format('d/m/Y') }}</td>
                                     <td>{{ $movimiento->semana->inicio ?? 'N/A' }} - {{ $movimiento->semana->fin ?? 'N/A' }}</td>
@@ -267,8 +269,12 @@
                 responsive: true,
                 order: [[0, 'desc']],
                 columnDefs: [
-                    { targets: [7, 8], orderable: false } // Desactiva ordenación en "Editar" y "Eliminar"
-                ]
+                    { targets: [8, 9], orderable: false } // Desactiva ordenación en "Editar" y "Eliminar"
+                ],
+                initComplete: function() {
+                    // Aplicar formato después de que DataTables renderice la tabla
+                    window.applyNumberFormatting(['cops'], []);
+                }
             });
 
             // Manejo de la eliminación con SweetAlert2
@@ -291,6 +297,69 @@
                     }
                 });
             });
+        });
+    </script>
+
+    <script>
+        /**
+         * Script reutilizable para formatear números con separadores de miles en elementos HTML.
+         * Acepta listas de 'names' e 'ids' para identificar los elementos a formatear.
+         * No depende de librerías externas ni de internet.
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            // Función para formatear números con separadores de miles
+            function formatNumberWithThousands(number) {
+                // Convertir a número si es una cadena y manejar el símbolo $
+                const num = typeof number === 'string' ? parseFloat(number.replace(/[^0-9.-]+/g, '')) : number;
+                if (isNaN(num)) return '$0.00'; // Manejar casos inválidos
+
+                // Convertir a string con dos decimales
+                const fixedNumber = num.toFixed(2);
+                // Separar la parte entera y decimal
+                const [integerPart, decimalPart] = fixedNumber.split('.');
+                // Agregar comas cada 3 dígitos en la parte entera
+                let formattedInteger = '';
+                const len = integerPart.length;
+                for (let i = 0; i < len; i++) {
+                    if (i > 0 && (len - i) % 3 === 0) {
+                        formattedInteger += ',';
+                    }
+                    formattedInteger += integerPart[i];
+                }
+                // Combinar parte entera y decimal con el símbolo $
+                return `$${formattedInteger}.${decimalPart}`;
+            }
+
+            // Función para aplicar el formato a elementos por name o id
+            function applyNumberFormatting(names = [], ids = []) {
+                // Procesar elementos por 'name'
+                names.forEach(name => {
+                    const elements = document.getElementsByName(name);
+                    for (let i = 0; i < elements.length; i++) {
+                        const element = elements[i];
+                        const value = element.textContent || element.innerText || element.value;
+                        const number = parseFloat(value.replace(/[^0-9.-]+/g, '')); // Extraer número
+                        if (!isNaN(number)) {
+                            element.textContent = formatNumberWithThousands(number);
+                        }
+                    }
+                });
+
+                // Procesar elementos por 'id'
+                ids.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        const value = element.textContent || element.innerText || element.value;
+                        const number = parseFloat(value.replace(/[^0-9.-]+/g, '')); // Extraer número
+                        if (!isNaN(number)) {
+                            element.textContent = formatNumberWithThousands(number);
+                        }
+                    }
+                });
+            }
+
+            // Exponer la función al ámbito global
+            window.applyNumberFormatting = applyNumberFormatting;
         });
     </script>
 @endsection

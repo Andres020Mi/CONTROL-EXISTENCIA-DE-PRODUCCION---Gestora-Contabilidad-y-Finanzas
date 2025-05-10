@@ -127,6 +127,9 @@
                         <option value="g">g</option>
                     </select>
 
+                     <label>Precio por unidad:</label>
+                      <input type="number" name="precio_por_unidad" required>
+
                     <label>Imagen:</label>
                     <input type="file" name="imagen" id="imagen" accept="image/*">
 

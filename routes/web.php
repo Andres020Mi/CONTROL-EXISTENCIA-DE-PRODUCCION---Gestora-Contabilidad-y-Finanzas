@@ -22,7 +22,9 @@ Route::get('/', function () {
 
 
 Route::middleware(['role:admin'])->group(function () {
-    Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index'); // Listar artículos
+  
+
+  Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index'); // Listar artículos
     Route::get('/articulos/crear', [ArticuloController::class, 'create'])->name('articulos.create'); // Formulario de creación
     Route::post('/articulos', [ArticuloController::class, 'store'])->name('articulos.store'); // Guardar artículo
     Route::get('/articulos/{articulo}/editar', [ArticuloController::class, 'edit'])->name('articulos.edit'); // Formulario de edición
@@ -36,7 +38,11 @@ Route::post('/movimientos', [MovimientoController::class, 'store'])->name('movim
 Route::get('/movimientos/{movimiento}/editar', [MovimientoController::class, 'edit'])->name('movimientos.edit'); // Formulario de edición
 Route::put('/movimientos/{movimiento}', [MovimientoController::class, 'update'])->name('movimientos.update'); // Actualizar movimiento
 Route::delete('/movimientos/{movimiento}', [MovimientoController::class, 'destroy'])->name('movimientos.destroy'); // Eliminar movimiento
+
 });
+
+
+
 
 Route::middleware(['role:user'])->group(function () {
     
