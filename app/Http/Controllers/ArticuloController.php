@@ -56,11 +56,16 @@ public function index(Request $request)
             ->whereBetween('fecha', [$inicioSemana, $finSemana])
             ->sum('valor_del_movimiento');
 
-        // Calcular el valor total de las entradas (stock agregado) en la semana
-        $valorStockEntradas = $entradas * $articulo->precio_por_unidad;
+       
 
         // Calcular cantidad actual
         $cantidadActual = $cantidadInicial + $entradas - $salidas;
+
+
+      
+        $valorStockEntradas = $cantidadActual * $articulo->precio_por_unidad;
+      
+        
 
         // Calcular el valor del stock (cantidad_actual * precio_por_unidad)
         $valorStock = $cantidadActual * $articulo->precio_por_unidad;
