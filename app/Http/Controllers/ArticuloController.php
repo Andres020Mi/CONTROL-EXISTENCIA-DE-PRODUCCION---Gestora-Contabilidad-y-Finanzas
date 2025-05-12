@@ -89,7 +89,7 @@ public function index(Request $request)
     {
         $data = $request->validate([
             'nombre' => 'required|string|max:255',
-            'unidad_medida' => 'required|in:ml,kg,l,g',
+            'unidad_medida' => 'required|in:ml,kg,l,g,u',
             'precio_por_unidad' => 'required|numeric|min:0.01',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -114,7 +114,7 @@ public function index(Request $request)
 {
     $data = $request->validate([
         'nombre' => 'required|string|max:255',
-        'unidad_medida' => 'required|in:ml,kg,l,g',
+        'unidad_medida' => 'required|in:ml,kg,l,g,u',
         'precio_por_unidad' => 'required|numeric|min:0',
         'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);

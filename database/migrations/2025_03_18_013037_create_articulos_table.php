@@ -9,7 +9,7 @@ return new class extends Migration {
         Schema::create('articulos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->enum('unidad_medida', ['ml', 'kg', 'l', 'g']);
+            $table->enum('unidad_medida', ['ml', 'kg', 'l', 'g','u']);
             $table->integer('cantidad_inicial')->default(0);
             $table->integer('precio_por_unidad');
             $table->string('imagen')->nullable(); // Campo para la ruta de la imagen

@@ -295,13 +295,14 @@
             <th>ID</th>
             <th>Imagen</th>
             <th>Nombre</th>
+            <th>Unidad de medida</th>
             <th>Precio por unidad</th>
             <th>Inicial de semana</th>
             <th>Entradas</th>
             <th>Salidas</th>
             <th>Fin de semana</th>
             <th>Valor Ventas Semana</th>
-            <th>Valor Stock Entradas Semana</th>
+            <th>Valor existencias en alamcen</th>
             <th>Fecha</th>
             <th>Acciones</th>
         </tr>
@@ -318,11 +319,12 @@
                 @endif
             </td>
             <td>{{ $articulo->nombre }}</td>
+            <td>{{ $articulo->unidad_medida }}</td>
             <td name="cops">$ {{ $articulo->precio_por_unidad }}</td>
-            <td name="cops">{{ $articulo->cantidad_inicial }} {{ $articulo->unidad_medida }}</td>
+            <td name="cops">{{ $articulo->cantidad_inicial }} </td>
             <td name="cops">{{ $articulo->entradas_semana }}</td>
             <td name="cops">{{ $articulo->salidas_semana }}</td>
-            <td name="cops">{{ $articulo->cantidad_actual }} {{ $articulo->unidad_medida }}</td>
+            <td name="cops">{{ $articulo->cantidad_actual }} </td>
             <td name="cops">$ {{ $articulo->valor_ventas_semana }}</td>
             <td name="cops">$ {{ $articulo->valor_stock_entradas_semana }}</td>
             <td>{{ $articulo->fecha_actualizacion }}</td>
@@ -369,12 +371,42 @@
             $('#miTabla').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    { extend: 'copy', text: '<i class="fas fa-copy"></i> Copiar' },
-                    { extend: 'csv', text: '<i class="fas fa-file-csv"></i> CSV' },
-                    { extend: 'excel', text: '<i class="fas fa-file-excel"></i> Excel' },
-                    { extend: 'pdf', text: '<i class="fas fa-file-pdf"></i> PDF' },
-                    { extend: 'print', text: '<i class="fas fa-print"></i> Imprimir' }
-                ],
+                            {
+                                extend: 'copy',
+                                text: '<i class="fas fa-copy"></i> Copiar',
+                                exportOptions: {
+                                      columns: [0,2,3,4,5,6,7,8,9,10,11] // Cambia esto según las columnas que desees
+                                }
+                            },
+                            {
+                                extend: 'csv',
+                                text: '<i class="fas fa-file-csv"></i> CSV',
+                                exportOptions: {
+                                      columns: [0,2,3,4,5,6,7,8,9,10,11]
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                text: '<i class="fas fa-file-excel"></i> Excel',
+                                exportOptions: {
+                                      columns: [0,2,3,4,5,6,7,8,9,10,11]
+                                }
+                            },
+                            {
+                                extend: 'pdf',
+                                text: '<i class="fas fa-file-pdf"></i> PDF',
+                                exportOptions: {
+                                    columns: [0,2,3,4,5,6,7,8,9,10,11]
+                                }
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fas fa-print"></i> Imprimir',
+                                exportOptions: {
+                                      columns: [0,2,3,4,5,6,7,8,9,10,11]
+                                }
+                            }
+                        ],
                 language: {
                     lengthMenu: "Mostrar _MENU_ entradas por página",
                     zeroRecords: "No se encontraron resultados",

@@ -277,7 +277,7 @@
         <div class="sidebar-brand">
             <a href="{{ route('dashboard') }}" class="brand-link">
                 <img src="{{ asset('Adminlte/dist/assets/img/AdminLTELogo.png') }}" alt="Logo" class="brand-image opacity-75 shadow" />
-                <span class="brand-text fw-light">Agroquímicos</span>
+                <span class="brand-text fw-light">Existencias</span>
             </a>
         </div>
     

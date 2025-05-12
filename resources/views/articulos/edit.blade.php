@@ -138,6 +138,7 @@
                         <option value="kg" {{ $articulo->unidad_medida == 'kg' ? 'selected' : '' }}>kg</option>
                         <option value="l" {{ $articulo->unidad_medida == 'l' ? 'selected' : '' }}>l</option>
                         <option value="g" {{ $articulo->unidad_medida == 'g' ? 'selected' : '' }}>g</option>
+                        <option value="u" {{ $articulo->unidad_medida == 'u' ? 'selected' : '' }}>g</option>
                     </select>
 
                     <label>Precio por unidad:</label>

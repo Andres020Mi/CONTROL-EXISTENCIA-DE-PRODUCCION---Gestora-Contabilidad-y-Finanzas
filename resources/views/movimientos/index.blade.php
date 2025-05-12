@@ -106,6 +106,7 @@
             vertical-align: middle;
             border-top: 1px solid #dee2e6;
             background-color: #fff;
+            text-align: center;
         }
 
         .table tbody tr:hover {
@@ -174,6 +175,7 @@
                                 <th>ID</th>
                                 <th>Imagen</th>
                                 <th>Artículo</th>
+                                <th>Unidad de medida</th>
                                 <th>Cantidad</th>
                                 <th>valor del movimiento</th>
                                 <th>Tipo</th>
@@ -195,6 +197,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $movimiento->articulo->nombre ?? 'N/A' }}</td>
+                                    <td>{{ $movimiento->articulo->unidad_medida}}</td>
                                     <td>{{ $movimiento->cantidad }}</td>
                                     <td name="cops">{{ $movimiento->valor_del_movimiento }}</td>
                                     <td>{{ ucfirst($movimiento->tipo) }}</td>
@@ -246,12 +249,42 @@
             $('#miTabla').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    { extend: 'copy', text: '<i class="fas fa-copy"></i> Copiar' },
-                    { extend: 'csv', text: '<i class="fas fa-file-csv"></i> CSV' },
-                    { extend: 'excel', text: '<i class="fas fa-file-excel"></i> Excel' },
-                    { extend: 'pdf', text: '<i class="fas fa-file-pdf"></i> PDF' },
-                    { extend: 'print', text: '<i class="fas fa-print"></i> Imprimir' }
-                ],
+                            {
+                                extend: 'copy',
+                                text: '<i class="fas fa-copy"></i> Copiar',
+                                exportOptions: {
+                                    columns: [0,2, 3,4,5,6,7,8]
+                                }
+                            },
+                            {
+                                extend: 'csv',
+                                text: '<i class="fas fa-file-csv"></i> CSV',
+                                exportOptions: {
+                                    columns: [0,2, 3,4,5,6,7,8]
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                text: '<i class="fas fa-file-excel"></i> Excel',
+                                exportOptions: {
+                                    columns: [0,2, 3,4,5,6,7,8]
+                                }
+                            },
+                            {
+                                extend: 'pdf',
+                                text: '<i class="fas fa-file-pdf"></i> PDF',
+                                exportOptions: {
+                                    columns: [0,2, 3,4,5,6,7,8]
+                                }
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fas fa-print"></i> Imprimir',
+                                exportOptions: {
+                                    columns: [0,2, 3,4,5,6,7,8]
+                                }
+                            }
+                        ],
                 language: {
                     lengthMenu: "Mostrar _MENU_ entradas por página",
                     zeroRecords: "No se encontraron resultados",

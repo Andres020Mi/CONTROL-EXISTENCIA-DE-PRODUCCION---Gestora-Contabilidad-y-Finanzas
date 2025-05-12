@@ -125,6 +125,7 @@
                         <option value="kg">kg</option>
                         <option value="l">l</option>
                         <option value="g">g</option>
+                        <option value="u">u</option>
                     </select>
 
                      <label>Precio por unidad:</label>
